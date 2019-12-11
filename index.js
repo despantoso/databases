@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
 
-
-
 const app = express();
 
 const sqlite3 = require('sqlite3').verbose();
@@ -13,16 +11,10 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // An api endpoint that returns a short list of items
 app.get('/api/flowers', (req,res) => {
-    db.all(`SELECT FLOWERS.COMNAME, SIGHTINGS.LOCATION, SIGHTINGS.SIGHTED, SIGHTINGS.PERSON
-            FROM FLOWERS
-            JOIN SIGHTINGS ON FLOWERS.COMNAME=SIGHTINGS.NAME
-            WHERE (FLOWERS.COMNAME == "Ithuriels spear")
-            ORDER bY SIGHTINGS.SIGHTED DESC
-            LIMIT 10`, 
-            (err,row) => {
-            console.log(row);
-            var list = row
-            res.send(list)
+    db.all(`SELECT FlOWERS.COMNAME FROM FLOWERS`, (err,row) => {
+        console.log(row);
+        var list = row[0]
+        res.send(list)
     })
 });
 
